@@ -1,3 +1,4 @@
+import p5Gif from './p5.gif'; 
 //imágenes escenarios
 var dialogoCarpincho, dialogoPinguino,dialogoTucan,dialogoAguila;
 var dialogoB;
@@ -6,6 +7,7 @@ var dialogoBA;
 var biblioteca, ganaste,perdiste,inicio, instrucciones, credito, ciudad, barraDialogo, caraAguila, caraCarpincho, tablaVidas,bibliotecaAguila,aguilaParada;
 var libros = [];
 var gif_loadImg, gif_createImg;
+var gif;
 //sonidos
 var caidaAguila, golpe,impacto_cuerpo,revolea_libro,sonido_calle;
 //estado
@@ -68,7 +70,8 @@ var piso = 480; //altura inicial del objeto, en este caso es la mano del carpinc
 var libro1,libro2,libro3,libro4,libro5 = false;
 
 function preload() {
-
+//	gif_loadImg = loadImage("animacion-inicio.gif");
+	
 /*	soundFormats('mp3');
 	sonido_calle= loadSound("sonido_ambiente_calle.mp3");*/
 	fuente= loadFont("Poppins-Medium.ttf");
@@ -140,6 +143,7 @@ function setup() {
 	cont = 0;
 	inicializarVariables();
 
+	gif = p5Gif.loadGif('animacion-inicio.gif');
 	
 
 }
@@ -150,10 +154,12 @@ function imprimir() {
 	/*print("car" + cX);*/
 }
 function inicializarVariables(){
+	
+	
+//	gif_createImg = createImg("animacion-inicio.gif");
+	
 	tamCar = width / 3.5;
 	carX = width - 600;
-
-	
 	carY = height - 170;
 	velCarX = 10;
 	
@@ -185,8 +191,8 @@ function inicializarVariables(){
 	plumaXA=800;
 	plumaYA=mouseY;
 	vidas=3;
-	dialogoB=0;
-  dialogoC=0;
+	dialogoB=false;
+  	dialogoC=0;
   dialogoBA=0;
 	vidasP=3;
 	vidasA=3;
@@ -209,33 +215,25 @@ function draw() {
 	if (estado == "instrucciones" ) {
 		background(instrucciones, 0, 0, width, height);
 	}
-/*	if(estado=="animacionInicio"){
+	if(estado=="animacionInicio"){
 		
-		gif_loadImg = loadImage("animacion-inicio.gif");
-		gif_createImg = createImg("animacion-inicio.gif");
-		image(gif_loadImg);
-  
-  // updates animation frames by using an html
-  // img element, positioning it over top of
-  // the canvas.
-  gif_createImg.position(0,0);
-		//estado="biblioteca";
-		//print(gif_createImg.getCurrentFrame());
-		print(gif_loadImg.getCurrentFrame());
-	}*/
+		image(gif,0,0);
+		print(gif.p5Gif.frames());
+  	/*	gif_createImg.position(0,0);
+		estado="biblioteca";
+		print(gif_loadImg.getCurrentFrame());*/
+	}
 	if (estado == "biblioteca") {
 
 		escenaBiblioteca();
 		carpinchoBiblioteca();
 		libro();
-		dialogos();
 	}
 	if (estado == "ciudad") {
 		escenaCiudad();
 		carpinchoPersonaje();
 		ciudadAnimales();
 		libro();
-		dialogos();
 	}
 	if(estado=="bibliotecaAguila"){
 		bibliotecaAguilaF();
@@ -243,7 +241,6 @@ function draw() {
 		if(dialogoBA<=4){ //aguila parada mientras estan los dialogos
 		personajeAguila();
 		}
-		dialogos();
 		libro();
 	}
 	if(estado=="perdiste"){
@@ -393,65 +390,14 @@ function carpinchoBiblioteca() {
 	image(carSpritesBiblioteca[1], carX, carY, tamCar, tamCar);
 	}
 }
-function dialogos(){
-	textSize(24);
-	
-	if(estado=="biblioteca"){
-			if(dialogoB==1){	
-				image(dialogoCarpincho,466,560,890,160);
-				text("¡Ey! ¿Qué estás haciendo?",220,540);
-				text("...",220,570);
-				text("¡Tengo que pararlo con algo!",220,600);				
-			}
-		
-			if(vidasP==0){
-				image(dialogoPinguino,466,560,890,160);
-				text("¡Carpincho! ¡Me salvaste! Estaba hipnotizado pero la lectura ",220,540);
-				text("crítica de tus libros lograron despertarme.",220,570);
-				text("¡Tenés que ir a la calle a rescatar a los otros animales!",220,600);
-				
-			}
-	}
-	if(estado=="ciudad"){
-		if(colision2==true && dialogoC==0){
-				image(dialogoTucan,466,560,890,160);
-				text("¡Carpincho, nos salvaste! Fue Águila quien nos hizo esto,",220,540);
-				text("nos hipnotizó para que lo sigamos ciegamente y no",220,570);
-				text("cuestionemos sus ideales! Tenés que detenerlo, ¡entrá a su biblioteca!",220,600);
-		}
-}
-	
-	if(estado=="bibliotecaAguila"){
-		if(dialogoBA==0){
-			image(dialogoAguila,466,560,890,160);
-			text("¡Carpincho! Por fin llegas.",220,540);
-		}
-		if(dialogoBA==1){
-			image(dialogoCarpincho,466,560,890,160);
-			text("¡Águila, acá estás! ¿¡Por qué estás haciendo todo esto!?",220,540);
-		}
-		if(dialogoBA==2){
-			image(dialogoAguila,466,560,890,160);
-			text("¡Porque no soporto la diversidad de pensamiento que fomenta",220,540);
-			text("tu asquerosa biblioteca! El único pensamiento válido tiene que ser el mío,",220,570);
-			text("y pienso hipnotizar a todos los animales necesarios para que piensen como yo.",220,600);
-			text("¡Así mi biblioteca de un solo libro por fin tendrá éxito!",220,630);	
-		}
-		if(dialogoBA==3){
-				image(dialogoCarpincho,466,560,890,160);
-				text("¡No podés obligar a los demás a que piensen como vos!",220,540);	
-		}
-		if(dialogoBA==4){
-				image(dialogoAguila,466,560,890,160);
-				text("¡Sí que puedo! Y te lo demostraré.",220,540);
-			
-		}
-	}
-}
 //funcion primer escena biblioteca
 function escenaBiblioteca() {
 	imageMode(CORNER);
 	background(biblioteca, 0, 0, width, height);
+	print(dialogoB);
+	if(dialogoB==0){
+		image(dialogoPinguino,0,0,width,height);
+	}
 	image(tablaVidas, 34,30, 293,61); //tabla carpincho
 	if(vidasP==3){ //cambiar cara de caarpincho por pinguino
 		image(caraCarpincho, 42,34); //primer vida pinguino
@@ -499,6 +445,7 @@ function caidaPluma(){
 function escenaCiudad() {
 	colisionAnimales();
 	print("vidas"+vidas);
+
 	//-----------------------------------------------
 	//ELEMENTOS
 	image(ciudad, cX, 0, 3381, height);
@@ -602,7 +549,7 @@ function cambiarEscena() {
 
 	if (estado == "inicio") {
 		if (botones(370, 613, 350,470)) {
-			estado = "biblioteca";
+			estado = "animacionInicio";
 		}
 		if (botones(55, 140, 50, 130)){
 			estado = "instrucciones";
