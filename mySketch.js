@@ -1,4 +1,4 @@
-import p5Gif from './p5.gif'; 
+//import p5Gif from './p5.gif'; 
 //imágenes escenarios
 var dialogoCarpincho, dialogoPinguino,dialogoTucan,dialogoAguila;
 var dialogoB;
@@ -143,7 +143,7 @@ function setup() {
 	cont = 0;
 	inicializarVariables();
 
-	gif = p5Gif.loadGif('animacion-inicio.gif');
+	//gif = p5Gif.loadGif('animacion-inicio.gif');
 	
 
 }
