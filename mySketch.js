@@ -357,7 +357,7 @@ function bibliotecaAguilaF(){
 function personajeAguila(){
 	image(aguilaParada,700,153,173,212);
 }
-//funcion personaje carpincho
+//funcion personaje ccarpincho
 function carpinchoPersonaje() {
 	imageMode(CENTER);
 	if(estado=="ciudad"){
