@@ -1,17 +1,17 @@
 //import p5Gif from './p5.gif'; 
 //imágenes escenarios
-var dialogoCarpincho, dialogoPinguino,dialogoTucan,dialogoAguila;
+var dialogoBiblioteca1,dialogoBiblioteca2,dialogoCiudad;
 var dialogoB;
 var dialogoC;
 var dialogoBA;
-var biblioteca, ganaste,perdiste,inicio, instrucciones, credito, ciudad, barraDialogo, caraAguila, caraCarpincho, tablaVidas,bibliotecaAguila,aguilaParada;
-var libros = [];
+var biblioteca, ganaste,perdiste,inicio, instrucciones, credito, ciudad,caraAguila, caraCarpincho, tablaVidas,bibliotecaAguila,pinguinoVolando,aguilaParada;
+var libro = [];
 var gif_loadImg, gif_createImg;
 var gif;
 //sonidos
 var caidaAguila, golpe,impacto_cuerpo,revolea_libro,sonido_calle;
 //estado
-var estado = "inicio";
+var estado = "biblioteca";
 var terminarLanzar = false;
 var vidas;
 var sentido = "izquierda"; //primer tucan
@@ -70,7 +70,7 @@ var piso = 480; //altura inicial del objeto, en este caso es la mano del carpinc
 var libro1,libro2,libro3,libro4,libro5 = false;
 
 function preload() {
-//	gif_loadImg = loadImage("animacion-inicio.gif");
+	gif_loadImg = loadImage("animacion-inicio.gif");
 	
 /*	soundFormats('mp3');
 	sonido_calle= loadSound("sonido_ambiente_calle.mp3");*/
@@ -78,10 +78,10 @@ function preload() {
 	biblioteca = loadImage("fondo01.png"); //biblioteca
 	inicio = loadImage("pantalla inicial.png");
 	instrucciones = loadImage("instrucciones.png");
-	creditos = loadImage("creditos.png");
+	credito = loadImage("creditos.png");
 	ganaste= loadImage("ganaste.png");
 	perdiste =loadImage("perdiste.png");
-	libroimg = loadImage("libro.png");
+	//libro= loadImage("libro.png");
 	ciudad = loadImage("ciudad.png");
 	caraAguila = loadImage("caraAguila.png");
 	caraCarpincho = loadImage("caraCarpincho.png");
@@ -91,14 +91,13 @@ function preload() {
 	bibliotecaAguila = loadImage("bibliotecaAguila.png");
 	aguilaParada = loadImage("aguilaParada.png");
 	pluma = loadImage("pluma.png");
-	barraDialogo = loadImage("barraDialogo.png");
-	dialogoCarpincho= loadImage("dialogoCarpincho.png");
-	dialogoPinguino= loadImage("dialogoPinguino.png");
-	dialogoTucan= loadImage("dialogoTucan.png");
-	dialogoAguila= loadImage("dialogoAguila.png");
+	pinguinoVolando= loadImage("pinguinoVolando.png")
 	pinguino = loadImage("pinguino.png");
 	aguilaVolando= loadImage("aguilaVolando.png");
 	aguilaVolandoIzq= loadImage("aguilaVolandoIzq.png");
+	dialogoBiblioteca1 = loadImage("dialogoBiblioteca1.png");
+	dialogoBiblioteca2 = loadImage("dialogoBiblioteca2.png");
+	dialogoCiudad = loadImage("dialogoCiudad.png");
 
 	//carpincho en la ciudad
 //faltan agregar los demas 
@@ -148,15 +147,11 @@ function setup() {
 
 }
 
-function imprimir() {
-	print("mouseX: " + mouseX);
-	print("mouseY: " + mouseY);
-	/*print("car" + cX);*/
-}
+
 function inicializarVariables(){
 	
 	
-//	gif_createImg = createImg("animacion-inicio.gif");
+	//gif_createImg = createImg("animacion-inicio.gif");
 	
 	tamCar = width / 3.5;
 	carX = width - 600;
@@ -193,7 +188,7 @@ function inicializarVariables(){
 	vidas=3;
 	dialogoB=false;
   	dialogoC=0;
-  dialogoBA=0;
+  	dialogoBA=0;
 	vidasP=3;
 	vidasA=3;
 }
@@ -216,18 +211,19 @@ function draw() {
 		background(instrucciones, 0, 0, width, height);
 	}
 	if(estado=="animacionInicio"){
-		
-		image(gif,0,0);
-		print(gif.p5Gif.frames());
-  	/*	gif_createImg.position(0,0);
-		estado="biblioteca";
-		print(gif_loadImg.getCurrentFrame());*/
+		print(estado);
+		if(gif_loadImg.getCurrentFrame()<45){
+
+			image(gif_loadImg, 0, 0);
+		} else {
+			estado="biblioteca";
+		}
 	}
 	if (estado == "biblioteca") {
 
 		escenaBiblioteca();
 		carpinchoBiblioteca();
-		libro();
+		mostrarLibro();
 	}
 	if (estado == "ciudad") {
 		escenaCiudad();
@@ -262,11 +258,16 @@ function draw() {
 
 }
 
+function imprimir() {
+	print("mouseX: " + mouseX);
+	print("mouseY: " + mouseY);
+	/*print("car" + cX);*/
+	
+}
 
 
 
-
-function libro() {
+function mostrarLibro() {
 	imageMode(CENTER);
 
 	if(estado=="biblioteca"){  //revisar por que hay 3 metodos si podria simplificarse a uno solo
@@ -396,7 +397,8 @@ function escenaBiblioteca() {
 	background(biblioteca, 0, 0, width, height);
 	print(dialogoB);
 	if(dialogoB==0){
-		image(dialogoPinguino,0,0,width,height);
+		image(dialogoBiblioteca1,20, 834, 785, 176);	
+		image(pinguinoVolando,mouseX,mouseY);
 	}
 	image(tablaVidas, 34,30, 293,61); //tabla carpincho
 	if(vidasP==3){ //cambiar cara de caarpincho por pinguino
